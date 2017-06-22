@@ -10,18 +10,36 @@
  * of patent rights can be found in the PATENTS file in the same directory.
  */
 
-#import "RCTWebViewBridge.h"
+ #import "RCTWebViewBridge.h"
 
-#import <UIKit/UIKit.h>
+ #import <UIKit/UIKit.h>
 
-#import "RCTAutoInsetsProtocol.h"
-#import "RCTConvert.h"
-#import "RCTEventDispatcher.h"
-#import "RCTLog.h"
-#import "RCTUtils.h"
-#import "RCTView.h"
-#import "UIView+React.h"
-#import <objc/runtime.h>
+ #if __has_include(<React/RCTAutoInsetsProtocol.h>)
+ #import <React/RCTAutoInsetsProtocol.h>
+ #import <React/RCTConvert.h>
+ #import <React/RCTEventDispatcher.h>
+ #import <React/RCTLog.h>
+ #import <React/RCTUtils.h>
+ #import <React/RCTView.h>
+ #import <React/UIView+React.h>
+ #elif __has_include("RCTAutoInsetsProtocol.h")
+ #import "RCTAutoInsetsProtocol.h"
+ #import "RCTConvert.h"
+ #import "RCTEventDispatcher.h"
+ #import "RCTLog.h"
+ #import "RCTUtils.h"
+ #import "RCTView.h"
+ #import "UIView+React.h"
+ #else
+ #import "React/RCTAutoInsetsProtocol.h"
+ #import "React/RCTConvert.h"
+ #import "React/RCTEventDispatcher.h"
+ #import "React/RCTLog.h"
+ #import "React/RCTUtils.h"
+ #import "React/RCTView.h"
+ #import "React/UIView+React.h"
+ #endif
+ #import <objc/runtime.h>
 
 //This is a very elegent way of defining multiline string in objective-c.
 //source: http://stackoverflow.com/a/23387659/828487
@@ -290,6 +308,9 @@ RCT_NOT_IMPLEMENTED(- (instancetype)initWithCoder:(NSCoder *)aDecoder)
 {
   //injecting WebViewBridge Script
   NSString *webViewBridgeScriptContent = [self webViewBridgeScript];
+  webView.scrollView.showsHorizontalScrollIndicator = false;
+	webView.scrollView.showsVerticalScrollIndicator = false;
+  [webView stringByEvaluatingJavaScriptFromString:@"var element = document.createElement('meta');  element.name = \"viewport\";  element.content = \"width=device-width,initial-scale=1.0,minimum-scale=1.0,maximum-scale=8,user-scalable=1\"; var head = document.getElementsByTagName('head')[0]; head.appendChild(element);"];
   [webView stringByEvaluatingJavaScriptFromString:webViewBridgeScriptContent];
   //////////////////////////////////////////////////////////////////////////////
 
