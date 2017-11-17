@@ -308,7 +308,7 @@ RCT_NOT_IMPLEMENTED(- (instancetype)initWithCoder:(NSCoder *)aDecoder)
 {
   //injecting WebViewBridge Script
   NSString *webViewBridgeScriptContent = [self webViewBridgeScript];
-  webview.scrollView.directionalLockEnabled = false
+  webView.scrollView.directionalLockEnabled = false
   webView.scrollView.showsHorizontalScrollIndicator = false;
 	webView.scrollView.showsVerticalScrollIndicator = false;
   [webView stringByEvaluatingJavaScriptFromString:@"var element = document.createElement('meta');  element.name = \"viewport\";  element.content = \"width=device-width,initial-scale=1.0,minimum-scale=1.0,maximum-scale=64,user-scalable=1\"; var head = document.getElementsByTagName('head')[0]; head.appendChild(element);"];
